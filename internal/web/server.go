@@ -110,6 +110,8 @@ func (s *Server) Router() *gin.Engine {
 	api.GET("/watch/:id", s.apiWatch)
 	api.GET("/me", s.apiMe)
 	api.POST("/ops/action", s.apiOpsAction)
+	api.POST("/content/submit", s.apiContentSubmit)
+	api.POST("/review/decision", s.apiReviewDecision)
 
 	return r
 }
@@ -488,6 +490,45 @@ func (s *Server) apiOpsAction(c *gin.Context) {
 		err = biz.ErrBadRequest
 	}
 	if err != nil {
+		jsonErr(c, err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"ok": true})
+}
+
+func (s *Server) apiContentSubmit(c *gin.Context) {
+	u := userOf(c)
+	var req struct {
+		EpisodeID int64  `json:"episode_id"`
+		Title     string `json:"title"`
+		PlayURL   string `json:"play_url"`
+		IsFree    bool   `json:"is_free"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": biz.ErrBadRequest.Error()})
+		return
+	}
+	rev, err := s.Content.SubmitForReview(u, req.EpisodeID, req.Title, req.IsFree, req.PlayURL)
+	if err != nil {
+		jsonErr(c, err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"ok": true, "is_revision": rev})
+}
+
+func (s *Server) apiReviewDecision(c *gin.Context) {
+	u := userOf(c)
+	var req struct {
+		Target  string `json:"target"` // episode|revision
+		ID      int64  `json:"id"`
+		Approve bool   `json:"approve"`
+		Reason  string `json:"reason"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": biz.ErrBadRequest.Error()})
+		return
+	}
+	if err := s.Content.Review(u, req.Target, req.ID, req.Approve, req.Reason); err != nil {
 		jsonErr(c, err)
 		return
 	}
