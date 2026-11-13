@@ -105,12 +105,18 @@ def smoke(base_url):
         return results
     results.append(("登录 u1", logged_in, f"POST /login -> {sc}"))
 
-    # 会话内目录接口
+    # 会话内接口可用性（业务数据完整性由 deploy/smoke.sh 与一致性 Skill 负责）
     sc, raw = req("/api/episodes")
-    results.append(("剧集目录", sc == 200 and "episodes" in raw, raw[:120]))
-    # 我的信息接口
+    results.append(("剧集目录接口", sc == 200 and "episodes" in raw, raw[:120]))
     sc, raw = req("/api/me")
-    results.append(("我的记录", sc == 200 and "Balance" in raw, raw[:120]))
+    results.append(("我的记录接口", sc == 200 and "Balance" in raw, raw[:120]))
+    # 未登录访问受保护接口应被重定向到登录页（urllib 自动跟随重定向）
+    anon = urllib.request.build_opener()
+    try:
+        abody = anon.open(base + "/api/episodes", timeout=10).read().decode()
+        results.append(("未登录拦截", "登录" in abody and "episodes" not in abody, "匿名请求被重定向到登录页"))
+    except urllib.error.HTTPError as e:
+        results.append(("未登录拦截", e.code in (401, 403), f"匿名 /api/episodes -> {e.code}"))
     return results
 
 
