@@ -11,6 +11,8 @@
 | 5 | 测试 | 测试包中混入未使用的辅助类型（idHelper 等残留代码） | 删除残留，统一 `bizCode` 助手 | go vet 通过 |
 | 6 | 验收 | 验收 Skill 脚本 v1 自身缺陷：覆盖率取函数级最大值、冒烟未处理 Cookie/Content-Type | 修正 Skill 脚本（包级覆盖率解析 + CookieJar + 表单类型区分） | 第 3 轮复检全 PASS（docs/skill_call_acceptance.txt） |
 | 7 | 验收 | gofmt 报告 19 个文件格式不合规 | `gofmt -w .` 后复检 | gofmt PASS |
+| 8 | 部署 | main `bb9082d` 的 CI 部署作业失败：全新库中无已上架剧集，冒烟脚本假设演示数据存在 | 新增内容提交/审核 JSON API，冒烟脚本自建数据并兼容已有数据（比较前后余额） | main `602423a` 的 CI 全流程 success（run 43356862931） |
+| 9 | 联调 | `/api/episodes` 直接序列化内部模型，返回了草稿字段（`CurTitle` 等），违反"用户仅能浏览已上架内容" | 改为用户视图 DTO（id/seq/title/is_free/price/play_url/status） | 新增 `TestEpisodesAPIHidesDraftFields` 通过；目录接口不再出现草稿字段 |
 
 ## 约束文件版本与生效说明
 

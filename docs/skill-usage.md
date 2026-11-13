@@ -19,8 +19,8 @@
 | 使用位置 | PR 合并前的 Agent 验收阶段，对 dev/04 构建与运行中服务（:8090）执行；调用记录：`docs/skill_call_acceptance.txt`、`docs/skill_call_acceptance_before_fix.txt` |
 | 使用原因 | 题面要求"使用独立验收 Agent 依据原始题面逐项验证最终版本"，需要可重复的质量门禁（gofmt/vet/test/覆盖率）+ 部署冒烟 + 逐项证据清单 |
 | 使用过程 | 输入：仓库根目录 + `--base-url http://localhost:8090`。执行 gofmt、go vet、go test、覆盖率门禁（核心包与整体 ≥85%）、登录/目录/我的记录冒烟；人工按 references/acceptance_checklist.md 核对 R1-R8 规则与五组场景 |
-| 实际帮助 | **第一轮检查发现真实问题**：gofmt 报告 19 个文件格式不合规（见 before_fix 记录）；执行 `gofmt -w` 修复后复检，又暴露验收脚本自身两个缺陷（覆盖率误取函数级最大值、冒烟登录 Cookie/Content-Type 处理错误），修正 Skill 脚本后第三轮复检全部 PASS（整体覆盖率 86.2%，冒烟 4/4 PASS） |
-| 证据及局限 | 修复前：`docs/skill_call_acceptance_before_fix.txt`；修复后：`docs/skill_call_acceptance.txt`（结论"验收通过"）。局限：脚本无法核对"讲解视频/群提交"等线下项，需人工按清单 C 项补充；race 检测依赖 CI（本机无 CGO 工具链） |
+| 实际帮助 | **第一轮检查发现真实问题**：gofmt 报告 19 个文件格式不合规（见 before_fix 记录）；执行 `gofmt -w` 修复后复检，又暴露验收脚本自身两个缺陷（覆盖率误取函数级最大值、冒烟登录 Cookie/Content-Type 处理错误），修正 Skill 脚本后第三轮复检全部 PASS（整体覆盖率 86.6%，冒烟 5/5 PASS）。后续 PR #2 又修复了 CI 冒烟在全新环境缺少上架数据的问题（见 docs/ai-review-log.md #8） |
+| 证据及局限 | 修复前：`docs/skill_call_acceptance_before_fix.txt`；修复后：`docs/skill_call_acceptance.txt`（结论"验收通过"，覆盖率门禁 PASS）。局限：脚本无法核对"讲解视频/群提交"等线下项，需人工按清单 C 项补充；race 检测依赖 CI（本机无 CGO 工具链，CI run 43356862931 已通过） |
 
 ## 3. skill-creator（既有 Skill，CodeBuddy 内置）
 

@@ -1,10 +1,10 @@
 # 验收报告 — 题目 04 短剧内容上架、付费观看与下架处理
 
-- 被验收版本：`dev/04` 分支，业务代码提交 `920476c`（验收时 HEAD）
+- 被验收版本：`dev/04` 分支（已合并 PR #1、#2），业务代码提交 `237db9d`
 - 验收方式：独立验收 Skill（`skills/short-drama-acceptance-check`）+ 依据原始题面逐项人工核对
 - 验收时间：2026-11-13
 - 验收环境：Windows 本机教学验收环境，服务 `http://localhost:8080`，SQLite `data/aitv.db`
-- 自动化输出：`docs/skill_call_acceptance.txt`；单元测试输出：`docs/testing/test_output.txt`；覆盖率明细：`docs/testing/coverage_summary.txt`
+- 自动化输出：`docs/skill_call_acceptance.txt`；单元测试输出：`docs/testing/test_output.txt`；覆盖率明细：`docs/testing/coverage_summary.txt`；CI 运行记录：`docs/testing/ci_runs.txt`
 
 ## 1. 质量门禁
 
@@ -13,12 +13,13 @@
 | gofmt | PASS（无未格式化文件） | `docs/skill_call_acceptance.txt` |
 | go vet | PASS（无告警） | 同上 |
 | go test（7 个包） | PASS | 同上 |
-| 覆盖率：整体 | 86.2%（≥85%） | `docs/testing/coverage_summary.txt` |
+| 覆盖率：整体 | 86.6%（≥85%） | `docs/testing/coverage_summary.txt` |
 | 覆盖率：content | 86.2%（≥85%） | 同上 |
 | 覆盖率：billing | 89.1%（≥85%） | 同上 |
 | 覆盖率：sales | 86.3%（≥85%） | 同上 |
 | 覆盖率：refund | 87.6%（≥85%） | 同上 |
-| 竞态检测 `-race` | SKIP（本机无 CGO 工具链），由 CI Linux 执行 | `.github/workflows/ci.yml`；确定性并发用例 TestConcurrentBuyOneAffordable / TestConcurrentSameRequestId / TestConcurrentDecideOnlyOnce |
+| 覆盖率：web | 89.1% | 同上 |
+| 竞态检测 `-race` | 由 CI Linux 执行（run 43356862931 全流程 success） | `.github/workflows/ci.yml`、`docs/testing/ci_runs.txt`；本机无 CGO 工具链，另以确定性并发用例兜底（TestConcurrentBuyOneAffordable / TestConcurrentSameRequestId / TestConcurrentDecideOnlyOnce） |
 
 ## 2. 业务规则逐项验收（对应题面 8 条）
 
@@ -50,7 +51,7 @@
 | 最小业务页面可发起/查询/展示失败原因 | 通过 | `web/templates/` 9 页 + error.html；`web.TestSupportRefundViaPages`（观看被拒页展示原因） |
 | 数据持久化、重启可查 | 通过 | `store.TestOpenFileDBAndSeed`（关闭重开余额仍在）；`data/aitv.db` |
 | 单元测试整体与核心包 ≥85% | 通过 | 见第 1 节 |
-| 部署 + 健康检查 + 冒烟 | 通过 | `docs/deployment/record.md`；`deploy/smoke.ps1` 4/4 PASS |
+| 部署 + 健康检查 + 冒烟 | 通过 | 本地：`docs/deployment/record.md`、`docs/deployment/smoke_after_deploy.txt`（6/6 PASS）；CI：run 43356862931 success |
 | AGENTS.md 约束 | 通过 | 仓库根 `AGENTS.md` |
 | 两个自编 Skill 及使用记录 | 通过 | `skills/`、`docs/skill-usage.md`、`docs/skill_call_consistency.txt`、`docs/skill_call_acceptance.txt` |
 | CI 质量门禁/构建/部署 | 通过（配置） | `.github/workflows/ci.yml`；本机 CI 等价命令已在验收中执行 |

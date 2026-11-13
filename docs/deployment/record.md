@@ -5,15 +5,19 @@
 | 项 | 内容 |
 | --- | --- |
 | 部署时间 | 2026-11-13 |
-| 部署提交 | `b1d3e80`（dev/04，含 CI/部署脚本提交） |
+| 部署提交 | dev/04 `237db9d`（含 PR #1/#2 合并内容）；CI 部署提交 main `602423a` |
 | 制品 | `deploy/aitv-server.exe`（go build 生成，36.9 MB） |
 | 部署方式 | `deploy/deploy_local.ps1` 等价步骤：构建 → 停旧进程 → 起新进程 → 健康检查 → 业务冒烟 |
 | 数据目录 | `data/aitv.db`（SQLite 单文件，重启后业务数据保留） |
 | 监听地址 | `:8080` |
 | 健康检查 | `GET /login` → 200（证据见 `docs/deployment/smoke_after_deploy.txt`） |
-| 业务冒烟 | 4/4 PASS：登录页、u1 登录、已上架目录、免费集观看判定 |
+| 业务冒烟 | 6/6 PASS：登录页、内容提交→审核→上架、免费集观看、购买幂等（余额不变）、已购观看、未购拒绝 |
 | 冒烟脚本 | `deploy/smoke.ps1`（Windows）/ `deploy/smoke.sh`（Linux CI） |
+| CI 部署 | run 43356862931（main `602423a`）success：质量门禁→构建→启动→健康检查→冒烟 |
 | 服务日志 | `deploy/app.log`（未入库，运行产物） |
+
+> 说明：本地部署使用 dev/04 最终提交；GitHub Actions 在 main 上独立完成"构建 → 启动 → 健康检查 → 业务冒烟"，
+> 两条路径的冒烟脚本内容一致（Windows PowerShell 版 / Linux Bash 版）。
 
 ## 2. 部署流程与失败回退
 
