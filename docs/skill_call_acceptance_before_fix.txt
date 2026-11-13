@@ -1,0 +1,56 @@
+﻿== 质量门禁 ==
+gofmt FAIL: cmd\server\main.go
+internal\billing\billing.go
+internal\billing\billing_cov_test.go
+internal\billing\billing_err_test.go
+internal\billing\billing_more_test.go
+internal\billing\billing_test.go
+internal\biz\errors.go
+internal\biz\errors_test.go
+internal\content\content.go
+internal\content\content_more_test.go
+internal\content\content_test.go
+internal\model\model.go
+internal\refund\refund.go
+internal\refund\refund_cov_test.go
+internal\refund\refund_err_test.go
+internal\refund\refund_test.go
+internal\sales\sales.go
+internal\sales\sales_more_test.go
+internal\sales\sales_test.go
+internal\store\store.go
+internal\store\store_err_test.go
+internal\store\store_test.go
+internal\web\server.go
+internal\web\server_more_test.go
+internal\web\server_test.go
+
+go vet PASS: (无告警)
+go test PASS: internal/billing: ok; internal/biz: ok; internal/content: ok; internal/refund: ok; internal/sales: ok; internal/store: ok; internal/web: ok
+覆盖率门禁(≥85.0%，核心包 content/billing/sales/refund) FAIL: billing 100.0% biz 100.0% content 100.0% refund 100.0% sales 100.0% store 100.0% web 100.0%
+== 部署冒烟 ==
+python : Traceback (most recent call last):
+所在位置 C:\Users\35357\AppData\Local\Temp\genie-ps-1794534877626-vsq088.ps1:954 字符: 81
++ ... NG="utf-8"; python skills/short-drama-acceptance-check/scripts/run_ac ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "C:\Users\35357\CodeBuddy\20261113083419\aitv\skills\short-drama-acceptance-check\scripts\run_acceptance.py", li
+ne 148, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Users\35357\CodeBuddy\20261113083419\aitv\skills\short-drama-acceptance-check\scripts\run_acceptance.py", li
+ne 137, in main
+    for name, ok, detail in smoke(args.base_url):
+                            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\35357\CodeBuddy\20261113083419\aitv\skills\short-drama-acceptance-check\scripts\run_acceptance.py", li
+ne 89, in smoke
+    sc, _, _ = req("/login")
+               ^^^^^^^^^^^^^
+  File "C:\Users\35357\CodeBuddy\20261113083419\aitv\skills\short-drama-acceptance-check\scripts\run_acceptance.py", li
+ne 78, in req
+    r = urllib.request.Request(url, data=body, headers=headers)
+        ^^^^^^
+NameError: cannot access free variable 'urllib' where it is not associated with a value in enclosing scope. Did you for
+get to import 'urllib'?

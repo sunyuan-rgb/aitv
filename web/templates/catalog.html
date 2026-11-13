@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><title>剧集目录</title>
+<style>
+body{font-family:sans-serif;max-width:760px;margin:24px auto;padding:0 16px;color:#222}
+.card{border:1px solid #d1d5db;border-radius:8px;padding:14px;margin-bottom:12px}
+button{padding:6px 14px;background:#2563eb;color:#fff;border:0;border-radius:4px;cursor:pointer}
+input{padding:4px;border:1px solid #ccc;border-radius:4px}
+.flash{background:#dcfce7;color:#166534;padding:8px;border-radius:4px}
+a{color:#2563eb}
+.tag{padding:2px 6px;border-radius:4px;font-size:12px;background:#e5e7eb;display:inline-block}
+.free{background:#dcfce7;color:#166534}.paid{background:#fef3c7;color:#92400e}
+.stopped{background:#fee2e2;color:#991b1b}.paused{background:#f3f4f6;color:#374151}
+</style></head>
+<body>
+<h1>剧集目录</h1>
+<p>{{.User.Username}}（余额 {{.User.Balance}} 平台币）| <a href="/me">我的记录</a> | <a href="/logout">退出</a></p>
+{{if .Flash}}<p class="flash">{{.Flash}}</p>{{end}}
+{{range .Episodes}}
+<div class="card">
+  <h3>{{.PubTitle}} <span class="tag {{if .PubIsFree}}free{{else}}paid{{end}}">{{if .PubIsFree}}免费{{else}}{{.PubPrice}} 币/集{{end}}</span>
+    {{if eq .Status "sales_stopped"}}<span class="tag stopped">已停止销售（已购可看）</span>{{end}}
+    {{if eq .Status "paused"}}<span class="tag paused">暂停观看中</span>{{end}}</h3>
+  {{if eq .Status "paused"}}<p>该集暂停观看，暂停期间不可购买也不可播放。</p>{{end}}
+  <form method="post" action="/buy" style="display:flex;gap:8px;align-items:center">
+    <input type="hidden" name="episode_id" value="{{.ID}}">
+    {{if .PubIsFree}}
+    <a href="/play/{{.ID}}">▶ 免费试看</a>
+    {{else}}
+    <input name="request_id" placeholder="请求编号（可选，防重复扣币）" size="26">
+    <button type="submit">购买本集</button>
+    <a href="/play/{{.ID}}">观看入口</a>
+    {{end}}
+  </form>
+</div>
+{{end}}
+</body></html>

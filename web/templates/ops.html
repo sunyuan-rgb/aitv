@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><title>运营内容管理</title>
+<style>
+body{font-family:sans-serif;max-width:1080px;margin:24px auto;padding:0 16px;color:#222}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{border:1px solid #d1d5db;padding:6px 8px;text-align:left;font-size:14px}
+th{background:#f3f4f6}
+button{padding:4px 10px;border:0;border-radius:4px;cursor:pointer;background:#2563eb;color:#fff}
+.warn{background:#d97706}.danger{background:#dc2626}.ok{background:#16a34a}
+input{padding:4px;border:1px solid #ccc;border-radius:4px}
+.flash{background:#dcfce7;color:#166534;padding:8px;border-radius:4px}
+a{color:#2563eb}
+.mut{color:#6b7280;font-size:12px}
+</style></head>
+<body>
+<h1>运营内容管理</h1>
+<p>{{.User.Username}}（运营）| <a href="/">首页</a> | <a href="/logout">退出</a></p>
+{{if .Flash}}<p class="flash">{{.Flash}}</p>{{end}}
+<table>
+<tr><th>集序</th><th>状态</th><th>购买人数</th><th>有效权益</th><th>待处理退款</th><th>操作</th></tr>
+{{range .Summaries}}
+<tr>
+  <td>第{{$s:=.Episode}}{{$s.Seq}}集 {{if $s.PubTitle}}({{$s.PubTitle}}){{end}}</td>
+  <td>{{.Episode.Status}}{{if .LastReason}}<br><span class="mut">最近操作：{{.LastAction}} - {{.LastReason}}</span>{{end}}</td>
+  <td>{{.BuyerCount}}</td><td>{{.ActiveHolders}}</td><td>{{.PendingRefs}}</td>
+  <td><form method="post" action="#" id="f{{.Episode.ID}}" style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+    <input name="reason" placeholder="原因（必填）" size="18">
+    <input type="hidden" name="episode_id" value="{{.Episode.ID}}">
+    <button name="action" formaction="/ops/publish">上架</button>
+    <button name="action" class="warn" formaction="/ops/stop-sales">停止销售</button>
+    <button name="action" class="danger" formaction="/ops/pause">暂停观看</button>
+    <button name="action" class="ok" formaction="/ops/resume">恢复</button>
+  </form></td>
+</tr>
+{{end}}
+</table>
+<h2>已审核通过待发布的修订</h2>
+<table><tr><th>ID</th><th>剧集ID</th><th>修订标题</th><th>操作</th></tr>
+{{range .Revisions}}
+<tr><td>#{{.id}}</td><td>{{.episode_id}}</td><td>{{.title}}</td>
+<td><form method="post" action="/ops/revision/publish" style="display:flex;gap:4px">
+  <input type="hidden" name="revision_id" value="{{.id}}"><button>发布修订</button></form></td></tr>
+{{end}}</table>
+<h2>操作留痕（最近20条）</h2>
+<table><tr><th>时间</th><th>剧集</th><th>动作</th><th>操作人</th><th>原因</th></tr>
+{{range .Logs}}<tr><td>{{.CreatedAt}}</td><td>#{{.EpisodeID}}</td><td>{{.Action}}</td><td>{{.Actor}}</td><td>{{.Reason}}</td></tr>{{end}}</table>
+</body></html>

@@ -1,0 +1,15 @@
+# 构建与运行产物
+aitv-server
+deploy/aitv-server
+deploy/aitv-server.exe
+deploy/app.log
+deploy/err.log
+deploy_record.txt
+coverage.out
+coverage.out.tmp
+data/*.db
+data/*.db-wal
+data/*.db-shm
+smoke_out.log
+smoke_err.log
+*.session

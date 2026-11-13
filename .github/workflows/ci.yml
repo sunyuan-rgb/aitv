@@ -1,0 +1,100 @@
+name: aitv-ci
+
+on:
+  push:
+    branches: [main, "dev/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality-gate:
+    name: 质量门禁（格式/静态检查/测试/覆盖率）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+
+      - name: gofmt 检查
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "以下文件未格式化："
+            echo "$unformatted"
+            exit 1
+          fi
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: 单元测试 + 竞态检测 + 覆盖率
+        run: go test ./... -race -coverprofile=coverage.out -covermode=atomic
+
+      - name: 覆盖率门禁（整体与核心包 ≥85%）
+        run: |
+          total=$(go tool cover -func=coverage.out | awk '/total:/ {gsub(/%/,"",$3); print $3}')
+          echo "整体覆盖率: $total%"
+          fail=0
+          awk -v t="$total" 'BEGIN { if (t+0 < 85) { print "整体覆盖率未达85%"; fail=1 } }'
+          for pkg in content billing sales refund; do
+            cov=$(go tool cover -func=coverage.out | grep "aitv/internal/${pkg}/" | tail -1)
+            pct=$(go tool cover -func=coverage.out | grep "aitv/internal/${pkg}/" | awk -F'\t' '{gsub(/%/,"",$NF); sum+=$NF; n++} END {if(n>0) printf "%.1f", sum/n; else print 0}')
+            echo "核心包 ${pkg}: ${pct}%"
+            awk -v p="$pct" 'BEGIN { if (p+0 < 85) { print "核心包 '"$pkg"' 覆盖率未达85%"; fail=1 } }'
+          done
+          exit $fail
+
+      - name: 上传覆盖率原始文件
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.out
+
+  build:
+    name: 构建
+    runs-on: ubuntu-latest
+    needs: quality-gate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+      - name: go build
+        run: go build -o aitv-server ./cmd/server
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aitv-server
+          path: aitv-server
+
+  deploy:
+    name: 部署 + 健康检查 + 业务冒烟（仅 main）
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+
+      - name: 构建部署制品
+        run: go build -o aitv-server ./cmd/server
+
+      - name: 启动服务（教学验收环境）
+        run: |
+          ./aitv-server -addr :8080 -db data/aitv.db &
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8080/login > /dev/null; then break; fi
+            sleep 1
+          done
+
+      - name: 健康检查
+        run: curl -sf http://localhost:8080/login > /dev/null
+
+      - name: 业务冒烟检查
+        run: bash deploy/smoke.sh http://localhost:8080
+
+      - name: 记录部署版本
+        run: echo "部署提交 $GITHUB_SHA，部署时间 $(date -Iseconds)" >> deploy_record.txt

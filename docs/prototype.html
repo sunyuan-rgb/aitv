@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>题目04 可点击原型 — 短剧内容上架、付费观看与下架处理</title>
+<style>
+body{font-family:sans-serif;max-width:1000px;margin:24px auto;padding:0 16px;color:#222;background:#f8fafc}
+h1{border-bottom:2px solid #2563eb;padding-bottom:8px}
+.tabs{display:flex;gap:6px;margin:16px 0}
+.tabs button{padding:8px 14px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;border-radius:6px}
+.tabs button.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.page{display:none;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;min-height:300px}
+.page.active{display:block}
+table{width:100%;border-collapse:collapse;margin-top:8px}
+th,td{border:1px solid #e2e8f0;padding:6px 8px;font-size:14px;text-align:left}
+th{background:#f1f5f9}
+.tag{padding:2px 6px;border-radius:4px;font-size:12px;display:inline-block}
+.pub{background:#dcfce7;color:#166534}.stop{background:#fef3c7;color:#92400e}.pause{background:#fee2e2;color:#991b1b}
+.err{background:#fee2e2;color:#991b1b;padding:8px;border-radius:4px;margin-top:8px}
+.ok{background:#dcfce7;color:#166534;padding:8px;border-radius:4px;margin-top:8px}
+.flow{color:#475569;font-size:13px}
+</style>
+</head>
+<body>
+<h1>题目04 原型：短剧内容上架、付费观看与下架处理</h1>
+<p class="flow">流转主线：编辑提交 → 审核通过 → 运营上架 → 用户试看/购买/观看 → 运营停售/暂停 → 客服退款 → 恢复与核查</p>
+
+<div class="tabs">
+  <button class="active" onclick="show(0,this)">登录</button>
+  <button onclick="show(1,this)">编辑工作台</button>
+  <button onclick="show(2,this)">审核工作台</button>
+  <button onclick="show(3,this)">运营管理</button>
+  <button onclick="show(4,this)">用户目录</button>
+  <button onclick="show(5,this)">观看/退款</button>
+  <button onclick="show(6,this)">客服工作台</button>
+</div>
+
+<div class="page active">
+  <h2>登录页 /login</h2>
+  <p>预置账号下拉：editor / reviewer / ops / support / u1(500币) / u2(300币) / u3(100币)</p>
+  <p class="err">状态：用户名或密码错误 → 展示失败原因</p>
+</div>
+
+<div class="page">
+  <h2>编辑工作台 /editor</h2>
+  <table>
+    <tr><th>集序</th><th>状态</th><th>操作</th></tr>
+    <tr><td>第3集</td><td><span class="tag pub">已上架</span></td><td>修改资料 → 生成待审修订（每集最多1份）</td></tr>
+    <tr><td>第5集</td><td>审核退回（原因：资料有误）</td><td>修改重提 → 待审核</td></tr>
+  </table>
+  <p class="err">异常：待审修订已存在 → 「该集已存在待审修订」；已上架内容不可改免费/付费属性</p>
+</div>
+
+<div class="page">
+  <h2>审核工作台 /reviewer</h2>
+  <table>
+    <tr><th>对象</th><th>提交人</th><th>操作</th></tr>
+    <tr><td>第3集（修订）</td><td>editor</td><td>通过 / 退回（原因必填）</td></tr>
+  </table>
+  <p class="err">异常：自审拦截 → 「不能审核自己提交的内容」；修订通过后需运营「发布修订」才替换线上版本</p>
+</div>
+
+<div class="page">
+  <h2>运营内容管理 /ops</h2>
+  <table>
+    <tr><th>集序</th><th>状态</th><th>购买人数</th><th>待处理退款</th><th>操作</th></tr>
+    <tr><td>第3集</td><td><span class="tag pause">暂停观看</span>（原因展示）</td><td>2</td><td>1</td><td>恢复</td></tr>
+    <tr><td>第5集</td><td><span class="tag stop">停止销售</span>（已购可看）</td><td>3</td><td>0</td><td>恢复</td></tr>
+    <tr><td>第6集</td><td><span class="tag pub">已上架</span></td><td>1</td><td>0</td><td>停售 / 暂停（原因必填）</td></tr>
+  </table>
+  <p class="flow">附：已审核通过待发布修订列表 + 操作留痕（动作/操作人/原因/时间）</p>
+</div>
+
+<div class="page">
+  <h2>用户剧集目录 /catalog</h2>
+  <table>
+    <tr><th>剧集</th><th>属性</th><th>状态</th><th>操作</th></tr>
+    <tr><td>第1集</td><td>免费</td><td>在售</td><td>▶ 免费试看</td></tr>
+    <tr><td>第3集</td><td>100 币</td><td>在售</td><td>购买（含请求编号防重复扣币）/ 观看入口</td></tr>
+    <tr><td>第5集</td><td>100 币</td><td><span class="tag stop">停止销售</span></td><td>仅已购用户可观看入口</td></tr>
+  </table>
+  <p class="err">购买异常：余额不足 / 停止销售 / 暂停观看 / 已拥有权益（幂等提示）</p>
+</div>
+
+<div class="page">
+  <h2>观看页 /play/:id 与退款</h2>
+  <div class="ok">▶ 正在播放（演示地址）：/static/demo/ep3.mp4</div>
+  <div class="err">无法观看：该集已暂停观看（运营原因展示）；你的权益已随退款撤销，内容恢复后可重新购买</div>
+  <p>暂停期间已购用户：填写原因 → 申请退款 → 客服处理</p>
+</div>
+
+<div class="page">
+  <h2>客服工作台 /support</h2>
+  <table>
+    <tr><th>退款单</th><th>用户</th><th>剧集</th><th>金额</th><th>操作</th></tr>
+    <tr><td>#1</td><td>u1</td><td>第3集</td><td>100 币</td><td>批准（退币+撤权益，只退一次）/ 驳回（原因必填）</td></tr>
+  </table>
+  <p class="flow">权益核查：输入用户名+剧集ID → 展示「为何能看/不能看」+ 余额 + 购买次数 + 退款单状态</p>
+  <p class="err">异常：重复处理 → 「该退款申请已处理，不能重复处理」</p>
+</div>
+
+<script>
+function show(i, btn){
+  document.querySelectorAll('.page').forEach((p,idx)=>p.classList.toggle('active', idx===i));
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
