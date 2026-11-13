@@ -5,7 +5,7 @@
 | 项 | 内容 |
 | --- | --- |
 | 部署时间 | 2026-11-13 |
-| 部署提交 | 最终发布版本 main `de8ca24`（CI run 43360117375 部署成功）；本地部署 dev/04 对应提交 |
+| 部署提交 | 最终发布版本 main `2532a85`（CI run 43361232160 部署成功）；本地部署 dev/04 对应提交 |
 | 制品 | `deploy/aitv-server.exe`（go build 生成，36.9 MB） |
 | 部署方式 | `deploy/deploy_local.ps1` 等价步骤：构建 → 停旧进程 → 起新进程 → 健康检查 → 业务冒烟 |
 | 数据目录 | `data/aitv.db`（SQLite 单文件，重启后业务数据保留） |
@@ -13,7 +13,7 @@
 | 健康检查 | `GET /login` → 200（证据见 `docs/deployment/smoke_after_deploy.txt`） |
 | 业务冒烟 | 6/6 PASS：登录页、内容提交→审核→上架、免费集观看、购买幂等（余额不变）、已购观看、未购拒绝 |
 | 冒烟脚本 | `deploy/smoke.ps1`（Windows）/ `deploy/smoke.sh`（Linux CI） |
-| CI 部署 | run 43360117375（main `de8ca24`）success：质量门禁→构建→启动→健康检查→冒烟；首次失败记录 run 43354729950 与修复后 success 对照见 `docs/testing/ci_runs.txt` |
+| CI 部署 | run 43361232160（main `2532a85`）success：质量门禁→构建→启动→健康检查→冒烟；首次失败 run 43354729950 与修复后 success 对照见 `docs/testing/ci_runs.txt` |
 | 服务日志 | `deploy/app.log`（未入库，运行产物） |
 
 > 说明：本地部署使用 dev/04 最终提交；GitHub Actions 在 main 上独立完成"构建 → 启动 → 健康检查 → 业务冒烟"，
