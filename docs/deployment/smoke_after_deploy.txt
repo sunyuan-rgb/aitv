@@ -1,0 +1,5 @@
+﻿[smoke] 1. login page reachable
+[smoke] 2. u1 login
+[smoke] 3. published catalog
+[smoke] 4. free-episode watch decision
+[smoke] ALL PASS

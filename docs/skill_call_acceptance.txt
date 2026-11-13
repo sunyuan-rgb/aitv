@@ -1,0 +1,12 @@
+﻿== 质量门禁 ==
+gofmt PASS: (无未格式化文件)
+go vet PASS: (无告警)
+go test PASS: internal/billing: ok; internal/biz: ok; internal/content: ok; internal/refund: ok; internal/sales: ok; internal/store: ok; internal/web: ok
+覆盖率门禁(≥85.0%，核心包 content/billing/sales/refund) PASS: billing 89.1% biz 100.0% content 86.2% refund 87.6% sales 86.3% store 85.0% web 87.8% | 整体 86.2%
+== 部署冒烟 ==
+登录页可达 PASS: GET /login -> 200
+登录 u1 PASS: POST /login -> 200
+剧集目录 PASS: {"episodes":[{"ID":1,"Seq":1,"Status":"published","CurTitle":"","CurIsFree":false,"CurPrice":0,"CurPlayURL":"","PubTitle
+我的记录 PASS: {"Balance":400,"Purchases":[{"created_at":"2026-11-13 09:54:04","episode_id":5,"id":2,"price":100,"title":"Drama EP5"},{
+
+结论: 验收通过
