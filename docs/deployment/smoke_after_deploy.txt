@@ -1,5 +1,8 @@
 ﻿[smoke] 1. login page reachable
-[smoke] 2. u1 login
-[smoke] 3. published catalog
-[smoke] 4. free-episode watch decision
+[smoke] 2. bootstrap: submit -> review -> publish (best effort)
+[smoke] 3. free-episode watch decision
+[smoke] 4. purchase idempotency (balance must not change on retry)
+  balance after duplicate purchase: 300
+[smoke] 5. paid-episode watch decision
+[smoke] 6. non-buyer denied
 [smoke] ALL PASS

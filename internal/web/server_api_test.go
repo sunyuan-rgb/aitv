@@ -35,6 +35,35 @@ func TestContentSubmitAPI(t *testing.T) {
 	}
 }
 
+func TestEpisodesAPIHidesDraftFields(t *testing.T) {
+	s, r := newServer(t)
+	we := login(t, r, "editor")
+	// 仅提交审核（未上架）→ 用户不可见
+	_ = httptest2(r, httptestNewReq(http.MethodPost, "/api/content/submit",
+		`{"episode_id":3,"title":"SECRET-DRAFT","play_url":"/p.mp4"}`, cookieOf(we), "application/json"))
+
+	wu := login(t, r, "u1")
+	w := authGet(r, "/api/episodes", wu)
+	if w.Code != http.StatusOK {
+		t.Fatalf("episodes=%d", w.Code)
+	}
+	if strings.Contains(w.Body.String(), "SECRET-DRAFT") || strings.Contains(w.Body.String(), "CurTitle") {
+		t.Fatalf("目录接口泄露草稿字段: %s", w.Body.String())
+	}
+	// 上架后可见且使用用户视图字段
+	wr := login(t, r, "reviewer")
+	_ = httptest2(r, httptestNewReq(http.MethodPost, "/api/review/decision",
+		`{"target":"episode","id":3,"approve":true}`, cookieOf(wr), "application/json"))
+	wops := login(t, r, "ops")
+	_ = httptest2(r, httptestNewReq(http.MethodPost, "/api/ops/action",
+		`{"action":"publish","episode_id":3}`, cookieOf(wops), "application/json"))
+	w = authGet(r, "/api/episodes", wu)
+	if !strings.Contains(w.Body.String(), "SECRET-DRAFT") || !strings.Contains(w.Body.String(), `"is_free":false`) {
+		t.Fatalf("上架后目录异常: %s", w.Body.String())
+	}
+	_ = s
+}
+
 func TestReviewDecisionAPI(t *testing.T) {
 	_, r := newServer(t)
 	we := login(t, r, "editor")
