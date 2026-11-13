@@ -30,3 +30,7 @@
 {"time":"2026-11-13T11:27:00","stage":"验收","actor":"ai","event":"skill_run","detail":"验收 Skill 全绿（质量门禁PASS、覆盖率门禁PASS、部署冒烟5/5 PASS）","evidence":"docs/skill_call_acceptance.txt"}
 {"time":"2026-11-13T11:28:00","stage":"验收","actor":"ai","event":"skill_run","detail":"业务一致性 Skill 复跑：10 PASS / 0 FAIL","evidence":"docs/skill_call_consistency.txt"}
 {"time":"2026-11-13T11:29:00","stage":"验收","actor":"ai","event":"gap_recorded","detail":"未使用 GitHub MCP 建仓、无真实飞书编号与 meegle 核验、讲解视频与群提交为线下项，均在文档中如实登记","evidence":"docs/assumptions.md A7, docs/git-flow.md, docs/ai-usage.md"}
+{"time":"2026-11-13T11:31:00","stage":"Git","actor":"ai","event":"branch_protection","detail":"读取 main 分支保护为未开启，PUT 配置后回读 HTTP 200：禁止强推/删除、要求 PR 与质量门禁状态检查","evidence":"docs/testing/branch_protection.json"}
+{"time":"2026-11-13T11:42:00","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #3 合并，merge commit 2fc4936；main CI success（run 43358073208）","evidence":"docs/git-flow.md, docs/testing/ci_runs.txt"}
+{"time":"2026-11-13T11:52:00","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #4 合并，merge commit de8ca24；main CI success（run 43360117375，含部署与冒烟）","evidence":"docs/git-flow.md, docs/testing/ci_runs.txt"}
+{"time":"2026-11-13T11:54:00","stage":"验收","actor":"ai","event":"final_check","detail":"最终发布版本 main de8ca24 质量门禁与部署冒烟全部 success","evidence":"docs/testing/ci_runs.txt"}

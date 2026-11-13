@@ -1,3 +1,6 @@
+aitv-ci | main | de8ca24 | push | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43360117375
+aitv-ci | dev/04 | ff3982b | pull_request | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43360023212
+aitv-ci | dev/04 | ff3982b | push | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43359978767
 aitv-ci | main | 2fc4936 | push | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43358073208
 aitv-ci | dev/04 | b2223be | pull_request | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43358071883
 aitv-ci | dev/04 | b2223be | push | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43358053386
@@ -5,6 +8,3 @@ aitv-ci | main | 602423a | push | completed | success | https://github.com/sunyu
 aitv-ci | dev/04 | 4823ec7 | pull_request | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43356854463
 aitv-ci | dev/04 | 4823ec7 | push | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43356837974
 aitv-ci | main | bb9082d | push | completed | failure | https://github.com/sunyuan-rgb/aitv/actions/runs/43354729950
-aitv-ci | dev/04 | b7380bd | pull_request | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43354709910
-aitv-ci | dev/04 | b7380bd | push | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43354703076
-aitv-ci | dev/04 | 981be6e | pull_request | completed | success | https://github.com/sunyuan-rgb/aitv/actions/runs/43354679370
