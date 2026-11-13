@@ -36,3 +36,5 @@
 {"time":"2026-11-13T11:54:00","stage":"验收","actor":"ai","event":"final_check","detail":"最终发布版本 main de8ca24 质量门禁与部署冒烟全部 success","evidence":"docs/testing/ci_runs.txt"}
 {"time":"2026-11-13T12:06:00","stage":"约束","actor":"ai","event":"file_created","detail":"补充 AGENTS.md v1.0 版本历史与四阶段加载/读取记录（对应任务 T1、T4-T18）","evidence":"docs/agents-constraint-record.md"}
 {"time":"2026-11-13T12:07:00","stage":"Skill","actor":"ai","event":"skill_installed","detail":"两个 Skill 安装到 CodeBuddy 项目级目录 .codebuddy/skills（与 skills/ 内容一致），并在 skill-usage.md 记录配置方式","evidence":".codebuddy/skills, docs/skill-usage.md#0"}
+{"time":"2026-11-13T12:19:00","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #5（文档与清理）合并 055b557；PR #6（约束记录与 Skill 配置）合并 2532a85","evidence":"docs/git-flow.md"}
+{"time":"2026-11-13T12:22:00","stage":"验收","actor":"ai","event":"final_check","detail":"最终发布版本 main 2532a85 的 CI（run 43361232160）质量门禁、构建、部署、冒烟全部 success","evidence":"docs/testing/ci_runs.txt"}
