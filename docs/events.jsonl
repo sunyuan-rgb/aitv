@@ -1,0 +1,32 @@
+{"time":"2026-11-13T09:06:24","stage":"建仓","actor":"user","event":"prompt","detail":"提交题目04开发任务（唯一主提示词），附题面与commit-convention","evidence":"docs/prompts.md#1"}
+{"time":"2026-11-13T09:06:24","stage":"建仓","actor":"ai","event":"repo_init","detail":"仓库已有 Initial commit 5929b51，未使用 GitHub MCP 建仓（仓库由使用者提供）","evidence":"docs/git-flow.md"}
+{"time":"2026-11-13T09:07:10","stage":"建仓","actor":"ai","event":"command_failed","detail":"git clone 直连 github.com 失败，重试 2 次仍失败","evidence":"docs/prompts.md#3"}
+{"time":"2026-11-13T09:09:30","stage":"建仓","actor":"ai","event":"command_ok","detail":"经 gh-proxy.com 镜像克隆成功，创建分支 dev/04","evidence":"docs/git-flow.md"}
+{"time":"2026-11-13T09:15:00","stage":"需求","actor":"ai","event":"file_created","detail":"编写 AGENTS.md：角色边界、Git 规范、数据保护、质量门禁、AI 红线","evidence":"AGENTS.md"}
+{"time":"2026-11-13T09:40:00","stage":"需求","actor":"ai","event":"file_created","detail":"需求说明/假设清单A1-A10/原型说明与prototype.html/任务清单","evidence":"docs/requirements.md, docs/assumptions.md, docs/prototype.md, docs/tasks.md"}
+{"time":"2026-11-13T10:37:00","stage":"需求","actor":"ai","event":"commit","detail":"d1a02d4 [docs] 补充项目约束、需求分析、原型与任务规划文档","evidence":"git log"}
+{"time":"2026-11-13T10:20:00","stage":"开发","actor":"ai","event":"code","detail":"实现 SQLite schema 与预置数据（7 账号、6 集短剧），单连接串行化事务","evidence":"internal/store/store.go"}
+{"time":"2026-11-13T10:37:05","stage":"开发","actor":"ai","event":"commit","detail":"6dd6cf5/461c956/ f9b0670/cf701df 四个业务域提交（内容审核、运营状态、购买权益、退款客服）","evidence":"git log"}
+{"time":"2026-11-13T10:37:10","stage":"开发","actor":"ai","event":"commit","detail":"e769de1 页面与路由；13b0831 Web 层测试","evidence":"git log"}
+{"time":"2026-11-13T10:30:00","stage":"测试","actor":"ai","event":"test_failed","detail":"首轮 go test 出现 12 处失败：非法状态预期、余额断言、模板相对路径、JSON 字段大小写","evidence":"docs/testing/test_output.txt 历史"}
+{"time":"2026-11-13T10:33:00","stage":"测试","actor":"ai","event":"test_fixed","detail":"修正业务判定与测试夹具，模板目录改为可配置；全部用例通过","evidence":"internal/web/server_test.go, docs/testing/test_output.txt"}
+{"time":"2026-11-13T10:36:00","stage":"测试","actor":"ai","event":"coverage","detail":"覆盖率首轮 67%（核心包 61-76%），补充边界/错误分支测试后核心包≥85%","evidence":"docs/testing/coverage_summary.txt"}
+{"time":"2026-11-13T10:37:10","stage":"Skill","actor":"ai","event":"skill_created","detail":"用 skill-creator init_skill.py 生成并定制两个 Skill：业务一致性检查、验收检查","evidence":"skills/short-drama-consistency-check, skills/short-drama-acceptance-check"}
+{"time":"2026-11-13T10:40:00","stage":"Skill","actor":"ai","event":"skill_run","detail":"业务一致性 Skill 在演示数据执行 10 条核查，10 PASS","evidence":"docs/skill_call_consistency.txt"}
+{"time":"2026-11-13T10:41:00","stage":"Skill","actor":"ai","event":"skill_run_failed","detail":"验收 Skill 首轮 gofmt FAIL（19 文件不合规）","evidence":"docs/skill_call_acceptance_before_fix.txt"}
+{"time":"2026-11-13T10:42:00","stage":"Skill","actor":"ai","event":"fix","detail":"gofmt -w 后复检；复检中又修正验收脚本覆盖率解析与冒烟Cookie缺陷","evidence":"docs/skill_call_acceptance.txt"}
+{"time":"2026-11-13T10:37:14","stage":"CI","actor":"ai","event":"commit","detail":"b1d3e80 新增 CI 质量门禁、Docker 镜像与部署冒烟脚本","evidence":"git log, .github/workflows/ci.yml"}
+{"time":"2026-11-13T10:44:00","stage":"部署","actor":"ai","event":"deploy_local","detail":"本地部署：构建→健康检查200→冒烟4/4 PASS","evidence":"docs/deployment/smoke_after_deploy.txt"}
+{"time":"2026-11-13T10:48:26","stage":"Git","actor":"ai","event":"commit","detail":"b7380bd 分支合并流程文档 + PR 脚本","evidence":"git log"}
+{"time":"2026-11-13T10:48:46","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #1 合并，merge commit bb9082d（保留 dev/04 全部提交）","evidence":"docs/git-flow.md"}
+{"time":"2026-11-13T10:52:00","stage":"CI","actor":"ai","event":"ci_failed","detail":"main bb9082d 部署作业失败：全新库无已上架剧集，冒烟步骤失败（run 43354729950）","evidence":"docs/testing/ci_runs.txt"}
+{"time":"2026-11-13T11:00:23","stage":"CI","actor":"ai","event":"fix","detail":"4823ec7 新增内容提交/审核 API，冒烟脚本自建数据并比较前后余额","evidence":"deploy/smoke.sh, internal/web/server.go"}
+{"time":"2026-11-13T11:05:00","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #2 合并，merge commit 602423a；main CI 全流程 success（run 43356862931）","evidence":"docs/testing/ci_runs.txt"}
+{"time":"2026-11-13T11:12:00","stage":"联调","actor":"ai","event":"defect_found","detail":"/api/episodes 直接序列化内部模型，返回草稿字段（CurTitle），违反仅浏览已上架内容","evidence":"docs/ai-review-log.md #9"}
+{"time":"2026-11-13T11:17:19","stage":"联调","actor":"ai","event":"fix","detail":"036955e 改为用户视图 DTO；237db9d 新增字段隔离测试与 CI 证据","evidence":"internal/web/server.go, internal/web/server_api_test.go"}
+{"time":"2026-11-13T11:17:47","stage":"Git","actor":"ai","event":"commit","detail":"b2223be 更新 CI 运行记录、部署证据与验收报告","evidence":"git log"}
+{"time":"2026-11-13T11:25:07","stage":"验收","actor":"ai","event":"deploy_local","detail":"干净数据重部署：demo_flow 覆盖退回→重提→通过、停售、暂停、退款、幂等；冒烟6/6 PASS","evidence":"docs/testing/demo_flow_output.txt, docs/deployment/smoke_after_deploy.txt"}
+{"time":"2026-11-13T11:26:00","stage":"验收","actor":"ai","event":"coverage","detail":"最终覆盖率：整体86.6%，content 86.2%，billing 89.1%，sales 86.3%，refund 87.6%，web 89.1%","evidence":"docs/testing/coverage_summary.txt"}
+{"time":"2026-11-13T11:27:00","stage":"验收","actor":"ai","event":"skill_run","detail":"验收 Skill 全绿（质量门禁PASS、覆盖率门禁PASS、部署冒烟5/5 PASS）","evidence":"docs/skill_call_acceptance.txt"}
+{"time":"2026-11-13T11:28:00","stage":"验收","actor":"ai","event":"skill_run","detail":"业务一致性 Skill 复跑：10 PASS / 0 FAIL","evidence":"docs/skill_call_consistency.txt"}
+{"time":"2026-11-13T11:29:00","stage":"验收","actor":"ai","event":"gap_recorded","detail":"未使用 GitHub MCP 建仓、无真实飞书编号与 meegle 核验、讲解视频与群提交为线下项，均在文档中如实登记","evidence":"docs/assumptions.md A7, docs/git-flow.md, docs/ai-usage.md"}

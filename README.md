@@ -76,4 +76,6 @@ deploy/             部署与冒烟脚本
 - 任务清单：`docs/tasks.md`
 - Agent 约束：`AGENTS.md`
 - Skill 使用：`docs/skill-usage.md`；AI 审核记录：`docs/ai-review-log.md`
-- 测试证据：`docs/testing/`；部署说明：`deploy/`
+- 提示词与会话导出：`docs/prompts.md`、`docs/events.jsonl`、`docs/ai-usage.md`
+- Git 流程与 PR：`docs/git-flow.md`；分支保护读取结果：`docs/testing/branch_protection.json`
+- 测试证据：`docs/testing/`；验收报告：`docs/acceptance/report.md`；部署记录：`docs/deployment/record.md`

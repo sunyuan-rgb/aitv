@@ -45,6 +45,9 @@ foreach ($ep in 1..6) {
     FormPost $editor "/editor/submit" $form
 }
 $reviewer = Login "reviewer"
+# EP3: first reject with reason, editor resubmits, then approve (scenario: reject -> revise -> approve)
+FormPost $reviewer "/reviewer/decision" @{ target = "episode"; id = "3"; decision = "reject"; reason = "cover title mismatch" }
+FormPost $editor "/editor/submit" @{ episode_id = "3"; title = "Drama EP3 (revised)"; play_url = "/static/demo/ep3.mp4" }
 foreach ($ep in 1..6) {
     FormPost $reviewer "/reviewer/decision" @{ target = "episode"; id = "$ep"; decision = "approve" }
 }

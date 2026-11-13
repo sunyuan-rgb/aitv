@@ -7,7 +7,7 @@ go test PASS: internal/billing: ok; internal/biz: ok; internal/content: ok; inte
 登录页可达 PASS: GET /login -> 200
 登录 u1 PASS: POST /login -> 200
 剧集目录接口 PASS: {"episodes":[{"id":1,"seq":1,"title":"Drama EP1","is_free":true,"price":0,"play_url":"/static/demo/ep1.mp4","status":"pu
-我的记录接口 PASS: {"Balance":300,"Purchases":[{"created_at":"2026-11-13 11:00:14","episode_id":3,"id":5,"price":100,"title":"Drama EP3"},{
+我的记录接口 PASS: {"Balance":300,"Purchases":[{"created_at":"2026-11-13 11:25:29","episode_id":3,"id":5,"price":100,"title":"Drama EP3 (re
 未登录拦截 PASS: 匿名请求被重定向到登录页
 
 结论: 验收通过

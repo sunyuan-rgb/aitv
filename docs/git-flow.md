@@ -57,7 +57,28 @@ b7380bd [docs] 补充分支合并流程记录与 PR 脚本
 
 说明：main `bb9082d` 的失败是真实暴露的问题，修复提交 `4823ec7` 经 PR #2 合并后，main 的 CI 恢复为 success。
 
+## 主分支保护（实际配置与读取结果）
+
+通过 GitHub API 配置并回读，原始结果见 `docs/testing/branch_protection.json`（HTTP 200）：
+
+| 设置 | 值 |
+| --- | --- |
+| 要求状态检查 | `质量门禁（格式/静态检查/测试/覆盖率）`，strict=true（分支需与 main 同步） |
+| 禁止强推 | allow_force_pushes.enabled=false |
+| 禁止删除分支 | allow_deletions.enabled=false |
+| PR 合并要求 | 必须通过 PR（required_approving_review_count=0，单人作业） |
+| enforce_admins | false（仓库所有者仍可推送，但本项目实际未直接推送 main） |
+
+配置命令：`python scripts/enable_branch_protection.py`（首次读取为 404「Branch not protected」，随后 PUT 200，再回读 200）。
+
+## 仓库创建方式说明（如实记录）
+
+- 题目要求通过 GitHub MCP 创建独立仓库并保留请求/结果记录。本次作业使用的是**使用者已提供的仓库**
+  `https://github.com/sunyuan-rgb/aitv`，**未使用 GitHub MCP 建仓**，因此无法提交 MCP 建仓证据。
+- 该项为缺失项，不伪造记录；如需补齐，须由教师开放 MCP 权限后重新建仓并迁移本地提交。
+
 ## 说明
 
 - 中间提交按业务模块增量演进，构建可用性以最终提交为准；PR 前已在本地执行完整质量门禁。
-- 直接推送 main 被禁止：main 的变更仅通过 PR #1 产生。
+- 直接推送 main 被禁止：main 的变更仅通过 PR 产生。
+- 主分支合并提交与源提交对应关系见上表；main 上的 CI（run 43356862931）对合并后版本重新执行了全部门禁。
