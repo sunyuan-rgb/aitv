@@ -418,13 +418,31 @@ func (s *Server) supportExplain(c *gin.Context) {
 
 // ---------- JSON API ----------
 
+// episodeDTO 用户可见剧集视图（不暴露草稿/工作站字段，符合"仅可浏览已上架内容"）。
+type episodeDTO struct {
+	ID      int64  `json:"id"`
+	Seq     int    `json:"seq"`
+	Title   string `json:"title"`
+	IsFree  bool   `json:"is_free"`
+	Price   int64  `json:"price"`
+	PlayURL string `json:"play_url"`
+	Status  string `json:"status"`
+}
+
 func (s *Server) apiEpisodes(c *gin.Context) {
 	eps, err := s.Billing.GetPublished()
 	if err != nil {
 		jsonErr(c, err)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"episodes": eps})
+	out := make([]episodeDTO, 0, len(eps))
+	for _, e := range eps {
+		out = append(out, episodeDTO{
+			ID: e.ID, Seq: e.Seq, Title: e.PubTitle, IsFree: e.PubIsFree,
+			Price: e.PubPrice, PlayURL: e.PubPlayURL, Status: e.Status,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{"episodes": out})
 }
 
 func (s *Server) apiBuy(c *gin.Context) {
