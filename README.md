@@ -74,7 +74,7 @@ deploy/             部署与冒烟脚本
 - 需求分析：`docs/requirements.md`；假设清单：`docs/assumptions.md`
 - 原型设计：`docs/prototype.md`、`docs/prototype.html`
 - 任务清单：`docs/tasks.md`
-- Agent 约束：`AGENTS.md`
+- Agent 约束：`AGENTS.md`（版本与加载记录：`docs/agents-constraint-record.md`）
 - Skill 使用：`docs/skill-usage.md`；AI 审核记录：`docs/ai-review-log.md`
 - 提示词与会话导出：`docs/prompts.md`、`docs/events.jsonl`、`docs/ai-usage.md`
 - Git 流程与 PR：`docs/git-flow.md`；分支保护读取结果：`docs/testing/branch_protection.json`
