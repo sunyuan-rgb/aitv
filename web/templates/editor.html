@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><title>内容编辑工作台</title>
+<style>
+body{font-family:sans-serif;max-width:960px;margin:24px auto;padding:0 16px;color:#222}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{border:1px solid #d1d5db;padding:6px 8px;text-align:left;font-size:14px}
+th{background:#f3f4f6}
+button{padding:4px 10px;background:#2563eb;color:#fff;border:0;border-radius:4px;cursor:pointer}
+input,textarea{padding:4px;border:1px solid #ccc;border-radius:4px}
+.flash{background:#dcfce7;color:#166534;padding:8px;border-radius:4px}
+.tag{padding:2px 6px;border-radius:4px;font-size:12px;background:#e5e7eb}
+a{color:#2563eb}
+</style></head>
+<body>
+<h1>内容编辑工作台</h1>
+<p>{{.User.Username}}（编辑）| <a href="/">首页</a> | <a href="/logout">退出</a></p>
+{{if .Flash}}<p class="flash">{{.Flash}}</p>{{end}}
+<table>
+<tr><th>集序</th><th>状态</th><th>当前资料（工作稿）</th><th>线上版本</th><th>编辑并提交</th></tr>
+{{$u := .User}}
+{{range .Episodes}}
+<tr>
+  <td>第{{.Seq}}集</td>
+  <td><span class="tag">{{.Status}}</span>{{if .RejectReason}}<br>退回原因：{{.RejectReason}}{{end}}</td>
+  <td>{{.CurTitle}}{{if .CurIsFree}}（免费）{{else}}（付费 {{.CurPrice}} 币）{{end}}<br>{{.CurPlayURL}}</td>
+  <td>{{if .PubTitle}}{{.PubTitle}}{{else}}-{{end}}</td>
+  <td>
+    <form method="post" action="/editor/submit" style="display:flex;flex-direction:column;gap:4px">
+      <input type="hidden" name="episode_id" value="{{.ID}}">
+      <input name="title" value="{{.CurTitle}}" required>
+      <input name="play_url" value="{{.CurPlayURL}}" required>
+      <label><input type="checkbox" name="is_free" value="1" {{if .CurIsFree}}checked{{end}} {{if .PubIsFree}}disabled{{end}}> 免费集</label>
+      <button type="submit">提交审核</button>
+    </form>
+  </td>
+</tr>
+{{end}}
+</table>
+<p class="tip">规则：已上架内容修改将生成待审修订（每集最多一份待审修订）；已上架内容不可修改免费/付费属性。</p>
+</body></html>

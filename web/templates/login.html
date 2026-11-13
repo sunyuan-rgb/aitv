@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>短剧平台 - 登录</title>
+<style>
+body{font-family:sans-serif;max-width:520px;margin:40px auto;padding:0 16px;color:#222}
+form{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+input,select,textarea{padding:8px;border:1px solid #ccc;border-radius:4px}
+button{padding:8px 16px;background:#2563eb;color:#fff;border:0;border-radius:4px;cursor:pointer}
+.err{color:#dc2626;background:#fee2e2;padding:8px;border-radius:4px}
+.tip{color:#6b7280;font-size:13px}
+</style>
+</head>
+<body>
+<h1>短剧平台 · 登录</h1>
+{{if .Error}}<p class="err">{{.Error}}</p>{{end}}
+<form method="post" action="/login">
+  <label>账号（预置：editor / reviewer / ops / support / u1 / u2 / u3，密码均为 pass123）</label>
+  <input name="username" placeholder="用户名" required>
+  <input name="password" type="password" placeholder="密码" required>
+  <button type="submit">登录</button>
+</form>
+<p class="tip">预置用户：u1 余额500币，u2 余额300币，u3 余额100币（恰好够买一集，用于并发演示）。</p>
+</body>
+</html>

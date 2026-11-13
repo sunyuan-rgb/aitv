@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><title>我的消费记录</title>
+<style>
+body{font-family:sans-serif;max-width:900px;margin:24px auto;padding:0 16px;color:#222}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{border:1px solid #d1d5db;padding:6px 8px;text-align:left;font-size:14px}
+th{background:#f3f4f6}
+.flash{background:#dcfce7;color:#166534;padding:8px;border-radius:4px}
+a{color:#2563eb}.mut{color:#6b7280;font-size:12px}
+</style></head>
+<body>
+<h1>我的消费记录</h1>
+<p>{{.User.Username}} | 当前余额：<b>{{.Records.Balance}}</b> 平台币 | <a href="/catalog">返回目录</a> | <a href="/logout">退出</a></p>
+{{if .Flash}}<p class="flash">{{.Flash}}</p>{{end}}
+<h2>购买记录（历史保留）</h2>
+<table><tr><th>时间</th><th>剧集</th><th>扣币</th><th>请求编号</th></tr>
+{{range .Records.Purchases}}<tr><td>{{.created_at}}</td><td>{{.title}}</td><td>{{.price}}</td><td class="mut">{{.id}}</td></tr>{{end}}</table>
+<h2>观看权益</h2>
+<table><tr><th>剧集</th><th>状态</th><th>取得时间</th></tr>
+{{range .Records.Entitlements}}<tr><td>{{.title}}</td><td>{{.status}}</td><td>{{.created_at}}</td></tr>{{end}}</table>
+<h2>退款记录</h2>
+<table><tr><th>时间</th><th>剧集</th><th>金额</th><th>状态</th><th>驳回原因</th></tr>
+{{range .Records.Refunds}}<tr><td>{{.created_at}}</td><td>{{.title}}</td><td>{{.amount}}</td><td>{{.status}}</td><td>{{.reject_reason}}</td></tr>{{end}}</table>
+</body></html>
