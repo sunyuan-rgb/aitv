@@ -81,22 +81,22 @@ type Revision struct {
 
 // Purchase 购买记录（历史只增不改）。
 type Purchase struct {
-	ID        int64
-	RequestID string
-	UserID    int64
-	EpisodeID int64
-	Price     int64
-	CreatedAt string
+	ID        int64  `json:"id"`
+	RequestID string `json:"request_id"`
+	UserID    int64  `json:"user_id"`
+	EpisodeID int64  `json:"episode_id"`
+	Price     int64  `json:"price"`
+	CreatedAt string `json:"created_at"`
 }
 
 // Entitlement 单集观看权益。
 type Entitlement struct {
-	ID         int64
-	UserID     int64
-	EpisodeID  int64
-	PurchaseID int64
-	Status     string
-	CreatedAt  string
+	ID         int64  `json:"id"`
+	UserID     int64  `json:"user_id"`
+	EpisodeID  int64  `json:"episode_id"`
+	PurchaseID int64  `json:"purchase_id"`
+	Status     string `json:"status"`
+	CreatedAt  string `json:"created_at"`
 }
 
 // RefundRequest 暂停观看期间的退款申请。
