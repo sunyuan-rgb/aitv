@@ -34,3 +34,5 @@
 {"time":"2026-11-13T11:42:00","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #3 合并，merge commit 2fc4936；main CI success（run 43358073208）","evidence":"docs/git-flow.md, docs/testing/ci_runs.txt"}
 {"time":"2026-11-13T11:52:00","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #4 合并，merge commit de8ca24；main CI success（run 43360117375，含部署与冒烟）","evidence":"docs/git-flow.md, docs/testing/ci_runs.txt"}
 {"time":"2026-11-13T11:54:00","stage":"验收","actor":"ai","event":"final_check","detail":"最终发布版本 main de8ca24 质量门禁与部署冒烟全部 success","evidence":"docs/testing/ci_runs.txt"}
+{"time":"2026-11-13T12:06:00","stage":"约束","actor":"ai","event":"file_created","detail":"补充 AGENTS.md v1.0 版本历史与四阶段加载/读取记录（对应任务 T1、T4-T18）","evidence":"docs/agents-constraint-record.md"}
+{"time":"2026-11-13T12:07:00","stage":"Skill","actor":"ai","event":"skill_installed","detail":"两个 Skill 安装到 CodeBuddy 项目级目录 .codebuddy/skills（与 skills/ 内容一致），并在 skill-usage.md 记录配置方式","evidence":".codebuddy/skills, docs/skill-usage.md#0"}

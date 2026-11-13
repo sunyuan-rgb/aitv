@@ -1,5 +1,15 @@
 # skill-usage.md — 实际使用的 Skill 汇总（题目 04）
 
+## 0. 工具中的配置方式
+
+| 项 | 内容 |
+| --- | --- |
+| 工具 | CodeBuddy IDE Agent |
+| 项目级 Skill 目录 | `.codebuddy/skills/<skill-name>/SKILL.md`（本仓库已放置两个自编 Skill 的可加载副本） |
+| 源文件目录 | `skills/<skill-name>/`（评审阅读用，与 `.codebuddy/skills/` 内容一致） |
+| 加载方式 | 在会话中通过 Skill 工具按 name 加载（`short-drama-consistency-check` / `short-drama-acceptance-check`），或在终端直接执行其 `scripts/` 脚本；本作业两种方式均实际使用 |
+| 版本 | 两个 Skill 均为 v1.0；修改脚本时的版本变化记录在各自 SKILL.md 与 `docs/ai-review-log.md` |
+
 ## 1. short-drama-consistency-check（业务专项 Skill，自编）
 
 | 说明项 | 内容 |
