@@ -44,6 +44,8 @@ b7380bd [docs] 补充分支合并流程记录与 PR 脚本
 | #4 | 接口字段统一、提示词/事件/AI 使用说明、分支保护取证 | merge commit `de8ca24` |
 | #5 | 更新 PR 记录、最终部署版本与 CI 结果，清理临时脚本 | merge commit `055b557` |
 | #6 | 补充 AGENTS.md 版本/加载记录、Skill 工具配置方式 | merge commit `2532a85` |
+| #7 | 对齐最终发布版本的 PR/部署/CI 记录 | merge commit `690b225` |
+| #8 | PR 全流程合并脚本与 CI 状态取证脚本固化 | merge commit `3c21457` |
 
 - 合并方式：Merge commit（保留 dev/04 全部提交，不压缩）
 - 分支处置：合并后保留 `dev/04` 以便复验与追溯；如需清理，可在确认 main 构建与部署通过后删除
@@ -61,7 +63,11 @@ b7380bd [docs] 补充分支合并流程记录与 PR 脚本
 | run 43359978767 / 43360023212 | dev/04 `ff3982b`（PR #4） | success |
 | run 43360117375 | main `de8ca24` | success（部署 + 冒烟） |
 | run 43360629173 | main `055b557` | success |
-| run 43361232160 | main `2532a85` | success（最终发布版本，含部署 + 冒烟） |
+| run 43361232160 | main `2532a85` | success（部署 + 冒烟） |
+| run 43361655045 / 43361660341 | dev/04 `84b5c9e`（PR #7） | success |
+| run 43361778803 | main `690b225` | success |
+| run 43373756677 / 43373761577 | dev/04 `91a38c7`（PR #8） | success |
+| run 43373853473 | main `3c21457` | success（main 最终提交，含部署 + 冒烟） |
 
 说明：main `bb9082d` 的失败是真实暴露的问题，修复提交 `4823ec7` 经 PR #2 合并后，main 的 CI 恢复为 success。
 

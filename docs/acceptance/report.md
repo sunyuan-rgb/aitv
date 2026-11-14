@@ -1,7 +1,7 @@
 # 验收报告 — 题目 04 短剧内容上架、付费观看与下架处理
 
-- 被验收版本：main `2532a85`（PR #6 合并后的发布版本）；本地验收对应 dev/04 同内容提交
-- 自动化门禁复验：main CI run 43361232160 success（质量门禁 + 构建 + 部署 + 冒烟）
+- 被验收版本：业务代码以 main `2532a85` 为准；其后 main 仅有文档与脚本提交（PR #7/#8），main 最终提交 `3c21457`
+- 自动化门禁复验：main 最终提交 CI run 43373853473 success（质量门禁 + 构建 + 部署 + 冒烟）
 - 验收方式：独立验收 Skill（`skills/short-drama-acceptance-check`）+ 依据原始题面逐项人工核对
 - 验收时间：2026-11-13
 - 验收环境：Windows 本机教学验收环境，服务 `http://localhost:8080`，SQLite `data/aitv.db`
@@ -52,7 +52,7 @@
 | 最小业务页面可发起/查询/展示失败原因 | 通过 | `web/templates/` 9 页 + error.html；`web.TestSupportRefundViaPages`（观看被拒页展示原因） |
 | 数据持久化、重启可查 | 通过 | `store.TestOpenFileDBAndSeed`（关闭重开余额仍在）；`data/aitv.db` |
 | 单元测试整体与核心包 ≥85% | 通过 | 见第 1 节 |
-| 部署 + 健康检查 + 冒烟 | 通过 | 本地：`docs/deployment/record.md`、`docs/deployment/smoke_after_deploy.txt`（6/6 PASS）；CI：run 43361232160 success |
+| 部署 + 健康检查 + 冒烟 | 通过 | 本地：`docs/deployment/record.md`、`docs/deployment/smoke_after_deploy.txt`（6/6 PASS）；CI：run 43373853473 success |
 | 主分支保护 | 通过 | `docs/testing/branch_protection.json`（HTTP 200：禁止强推/删除、要求 PR 与质量门禁状态检查） |
 | AGENTS.md 约束 | 通过 | 仓库根 `AGENTS.md` |
 | 两个自编 Skill 及使用记录 | 通过 | `skills/`、`docs/skill-usage.md`、`docs/skill_call_consistency.txt`、`docs/skill_call_acceptance.txt` |

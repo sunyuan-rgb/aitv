@@ -38,3 +38,5 @@
 {"time":"2026-11-13T12:07:00","stage":"Skill","actor":"ai","event":"skill_installed","detail":"两个 Skill 安装到 CodeBuddy 项目级目录 .codebuddy/skills（与 skills/ 内容一致），并在 skill-usage.md 记录配置方式","evidence":".codebuddy/skills, docs/skill-usage.md#0"}
 {"time":"2026-11-13T12:19:00","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #5（文档与清理）合并 055b557；PR #6（约束记录与 Skill 配置）合并 2532a85","evidence":"docs/git-flow.md"}
 {"time":"2026-11-13T12:22:00","stage":"验收","actor":"ai","event":"final_check","detail":"最终发布版本 main 2532a85 的 CI（run 43361232160）质量门禁、构建、部署、冒烟全部 success","evidence":"docs/testing/ci_runs.txt"}
+{"time":"2026-11-14T09:05:00","stage":"Git","actor":"ai","event":"pr_merged","detail":"PR #7（记录对齐）合并 690b225；PR #8（合并/取证脚本固化）合并 3c21457；main 最终提交 CI run 43373853473 success","evidence":"docs/git-flow.md, docs/testing/ci_runs.txt"}
+{"time":"2026-11-14T09:08:00","stage":"部署","actor":"ai","event":"redeploy","detail":"本机重启后重新部署最终版本并复跑冒烟 6/6 ALL PASS","evidence":"docs/deployment/smoke_after_deploy.txt"}
